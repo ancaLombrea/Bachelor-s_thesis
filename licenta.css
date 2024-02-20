@@ -1,0 +1,100 @@
+#titleLabel{
+    width: 50%;
+    font-size: larger;
+    color:rgb(16, 61, 207);
+    color:rgb(2, 15, 58);
+}
+
+#inputDate{
+    width: 20%;
+    margin-left: 22px;
+    border: 2px solid #050505;
+    padding: 7px;
+}
+
+#choosenVariable{
+    width: 20%;
+    border: 2px solid #050505;
+    padding: 7px;
+}
+
+#choosenVariableList{
+    font-style: oblique;
+    font-size: large;
+    column-rule-color: #050505;
+}
+
+#oneChart{
+    margin-left: 62px;
+}
+
+#multimpleCharts{
+    margin-left: 62px;
+}
+
+#button{
+    width: 20%;
+    margin-left: 63px;
+    border: 2px solid #050505;
+    width: 3.5cm;
+    color:rgb(0, 0, 0);
+    background-color: rgb(188, 201, 236);
+}
+
+#listLabel{
+    width: 20%;
+}
+
+#list-container {
+    border: 1.5px solid #020202;
+    padding: 10px;
+    width: 40%;
+    margin-right: 720px;
+    font-size: medium;
+    color:rgb(2, 15, 58);
+}
+
+#result{
+    width: 40%;
+    font-size: medium;
+    color: rgb(2, 15, 58);
+}
+
+#map {
+
+    width: 90%;
+    border: 2px solid #050505;
+    height: 55%;
+}
+
+html, body {
+    height: 100%;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 1;
+    background-image: url("licenta.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+ul {
+    list-style-type: none;
+    margin-right: 0;
+    padding: 0;
+}
+
+li {
+    padding: 4px;
+}
+
+@media screen and(max-width: 500px){
+
+    #map{
+        margin-top: -30px;
+        margin-right: 20px;
+        border: 2px solid #050505;
+        height: 50%;
+    }
+    
+}

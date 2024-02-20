@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Monitoring</title>
+
+    <link rel="stylesheet" href="licenta.css">
+</head>
+<body>
+
+    <p>
+        <label id="titleLabel"> Air Quality Monitoring </label>
+    </p>
+    
+    <div class="firstPart">
+    <label for="inputDate">Date:</label>
+    <input type="date" id="inputDate">  
+
+    <p> 
+    <label for="choosenVariable">Variable:</label>
+    <input type="text" name="choosenVariable" id="choosenVariable" list="choosenVariableList" onclick="clearText()"/>
+    <datalist id="choosenVariableList">
+        <option>Temperature</option>
+        <option>Relative Humidity</option>
+        <option>Atmospheric Pressure</option>
+        <option>CO2</option>
+        <option>BVOC</option>
+        <option>IAQ</option>
+    </datalist>
+    </p>
+    <input type="radio" id="oneChart">
+    <label for="radioButton1">One chart:</label>
+    <p>
+        <input type="radio" id="multimpleCharts">
+        <label for="radioButton2">Multiple charts:</label>
+    </p>
+    <p>
+        <button id="button">Access the database</button>
+    </p>
+    </div>
+
+    <!-- lista -->
+    <p>
+    <label id="listLabel">The list of all location: </label>
+    </p>
+    <p>    
+    <div id="list-container" style="height: 120px; overflow-y: scroll;">       
+        <ul id="myList">
+          <li> </li>
+        </ul>
+    </div>
+    </p>
+
+    <p>
+    <div id="result"></div>  
+    </p>
+
+    <div id="map"></div>
+
+    <p>
+    <div class="chartCard">
+        <div class="chartBox">
+            <canvas id="myChart0"></canvas>
+        </div>
+    </div>
+    </p>
+    <p>
+        <div class="chartCard">
+            <div class="chartBox">
+                <canvas id="myChart1"></canvas>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div class="chartCard">
+            <div class="chartBox">
+                <canvas id="myChart2"></canvas>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div class="chartCard">
+            <div class="chartBox">
+                <canvas id="myChart3"></canvas>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div class="chartCard">
+            <div class="chartBox">
+                <canvas id="myChart4"></canvas>
+            </div>
+        </div>
+    </p>
+
+    <script type="module" src = "licenta.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0-pSBjfntBRr1TCVfPKz8ErBrRAGmATM&callback=initMap" async></script>
+    <script>
+
+        var button = document.getElementById("addAddress");
+        var list = document.getElementById('list-container');
+        var chalendarInput = document.getElementById('inputDate');
+        var inputVarable = document.getElementById('choosenVariable');
+        function clearText(){
+            inputVarable.value = "";
+        }
+        
+        function initMap(){
+            const map = new google.maps.Map(document.getElementById('map'),{
+                zoom:8,
+                center:{
+                    lat:46.38437292,
+                    lng:23.40446294
+                }
+            })
+            const geocoderConst = new google.maps.Geocoder();
+            const infoWindowConst = new google.maps.InfoWindow();
+        }
+
+
+        var listContainer = document.getElementById('list-container');
+        function clickListEvent(event) {
+            var clickedItem = event.target;
+            var itemValue = clickedItem.textContent;
+
+            const location = itemValue.split(": ")[0];  
+            let latitudeAndLongitude = itemValue.split(": ")[1];
+            const latitude = parseFloat(latitudeAndLongitude.split(" ")[0]);
+            const longitude = parseFloat(latitudeAndLongitude.split(" ")[1]);
+            
+            const map = new google.maps.Map(document.getElementById('map'),{
+                zoom:10,
+                center:{
+                    lat:latitude,
+                    lng:longitude
+                }
+            })
+
+            const geocoderConst = new google.maps.Geocoder();
+            const infoWindowConst = new google.maps.InfoWindow();
+            const latitudeLongitude = {
+                lat:latitude,
+                lng:longitude
+            }
+
+        var geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(latitude, longitude);
+
+        geocoder.geocode({ 'latLng': latlng }, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                document.getElementById("result").innerHTML = "Address: " + results[0].formatted_address;
+                geocoderConst.geocode({location:latitudeLongitude}).then((locResult) => {
+                    if(locResult.results[0]){
+                        map.setZoom(13)
+                        const marker = new google.maps.Marker({
+                            position:latitudeLongitude,
+                            map:map,
+                        })
+                    }
+                });
+
+            } else {
+                document.getElementById("result").innerHTML = "Address not found";
+            }
+            } else {
+            document.getElementById("result").innerHTML = "Geocoder failed due to: " + status;
+            }
+        }); 
+    }
+
+        listContainer.addEventListener('click', function(event) {
+            if (event.target && event.target.nodeName === 'LI') {
+                clickListEvent(event);
+            }
+        });
+    </script>
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+</body>
+</html>
